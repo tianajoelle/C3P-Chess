@@ -27,22 +27,22 @@ MyPawn >> renderPieceOn: aSquare [
 
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [ 
-    | legalMoves forwardOneSquare forwardTwoSquares |
+    | legalMoves moveOne moveTwo |
 
     legalMoves := OrderedCollection new.
 
     "Définit les mouvements en avant selon la couleur du pion"
-    forwardOneSquare := self isWhite ifTrue: [ square up ] ifFalse: [ square down ].
-    forwardTwoSquares := self isWhite ifTrue: [ square up up ] ifFalse: [ square down down ].
+    moveOne := self isWhite ifTrue: [ square up ] ifFalse: [ square down ].
+    moveTwo := self isWhite ifTrue: [ square up up ] ifFalse: [ square down down ].
 
     "Ajoute le mouvement de 1 case en avant si la case est libre"
-    (forwardOneSquare notNil and: [ forwardOneSquare hasPiece not ])
-        ifTrue: [ legalMoves addLast: forwardOneSquare ].
+    (moveOne notNil and: [ moveOne hasPiece not ])
+        ifTrue: [ legalMoves addLast: moveOne ].
 
     "Ajoute le mouvement de 2 cases en avant si le pion est en position initiale et les cases sont libres"
     (self isAtStartingPosition and: [
-        forwardOneSquare hasPiece not and: [ forwardTwoSquares hasPiece not ]
-    ]) ifTrue: [ legalMoves addLast: forwardTwoSquares ].
+        moveOne hasPiece not and: [ moveTwo hasPiece not ]
+    ]) ifTrue: [ legalMoves addLast: moveTwo ].
 
 ^legalMoves
 ]
