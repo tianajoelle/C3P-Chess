@@ -20,3 +20,24 @@ MyPawnTest >> testInitialDoubleMove [
 	self
     assertCollection: squares includesAll: (Array with: (board at: 'd3') with:(board at: 'd4') )
 ]
+
+{ #category : 'tests' }
+MyPawnTest >> testIsAtStartingPosition [
+| board whitePawn blackPawn |
+    
+    board := MyChessBoard empty.
+    whitePawn := MyPawn white.
+    blackPawn := MyPawn black.
+
+    "Place un pion blanc en position initiale sur la case 'd2'"
+    board at: 'd2' put: whitePawn.
+    
+    "Place un pion noir en position initiale sur la case 'd7'"
+    board at: 'd7' put: blackPawn.
+    
+    "Vérifie que le pion blanc est en position initiale"
+    self assert: whitePawn isAtStartingPosition.
+    
+    "Vérifie que le pion noir est en position initiale"
+    self assert: blackPawn isAtStartingPosition.
+]

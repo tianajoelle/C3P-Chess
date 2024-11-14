@@ -11,6 +11,14 @@ MyPawn >> id [
 	^ 'P'
 ]
 
+{ #category : 'testing' }
+MyPawn >> isAtStartingPosition [
+
+	^ self isWhite 
+	ifTrue: [ square file = $2 ]
+	ifFalse: [ square file = $7 ].
+]
+
 { #category : 'rendering' }
 MyPawn >> renderPieceOn: aSquare [ 
 	
