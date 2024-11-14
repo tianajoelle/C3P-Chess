@@ -7,18 +7,21 @@ Class {
 
 { #category : 'tests' }
 MyPawnTest >> testInitialDoubleMove [
-    | pawn board squares |
-    
-    board:= MyChessBoard empty.
-    pawn:= MyPawn white.
-	"put a pawn at a file 2 as it's an initial position to a white pawn"
+    | pawn board legalMoves |
+
+    "Création d'un plateau et d'un pion blanc"
+    board := MyChessBoard empty.
+    pawn := MyPawn white.
+
+    "Place un pion blanc sur la case 'd2' (position initiale)"
     board at: 'd2' put: pawn.
 
-    squares := pawn targetSquares .
+    "Récupère les mouvements légaux du pion"
+    legalMoves := pawn targetSquaresLegal: true.
 
-	"Vérifie que le pion peut avancer de deux cases pour son premier mouvement."
-	self
-    assertCollection: squares includesAll: (Array with: (board at: 'd3') with:(board at: 'd4') )
+    "Vérifie que le pion peut avancer de deux cases pour son premier mouvement"
+    self assert: (legalMoves includes: (board at: 'd3')).
+    self assert: (legalMoves includes: (board at: 'd4')).
 ]
 
 { #category : 'tests' }

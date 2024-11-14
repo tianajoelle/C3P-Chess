@@ -26,11 +26,23 @@ MyPawn >> renderPieceOn: aSquare [
 ]
 
 { #category : 'rendering' }
-MyPawn >> targetSquaresLegal: aBoolean [
+MyPawn >> targetSquaresLegal: aBoolean [ 
+    | legalMoves forwardOneSquare forwardTwoSquares |
 
-	^ (self isWhite
-		   ifTrue: [ { square up } ]
-		   ifFalse: [ { square down } ]) select: [ :s |
-		  s notNil and: [
-			  s hasPiece not or: [ s contents color ~= color ] ] ]
+    legalMoves := OrderedCollection new.
+
+    "Définit les mouvements en avant selon la couleur du pion"
+    forwardOneSquare := self isWhite ifTrue: [ square up ] ifFalse: [ square down ].
+    forwardTwoSquares := self isWhite ifTrue: [ square up up ] ifFalse: [ square down down ].
+
+    "Ajoute le mouvement de 1 case en avant si la case est libre"
+    (forwardOneSquare notNil and: [ forwardOneSquare hasPiece not ])
+        ifTrue: [ legalMoves addLast: forwardOneSquare ].
+
+    "Ajoute le mouvement de 2 cases en avant si le pion est en position initiale et les cases sont libres"
+    (self isAtStartingPosition and: [
+        forwardOneSquare hasPiece not and: [ forwardTwoSquares hasPiece not ]
+    ]) ifTrue: [ legalMoves addLast: forwardTwoSquares ].
+
+^legalMoves
 ]
